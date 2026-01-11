@@ -1,0 +1,29 @@
+---
+- name: Deploy systemd unit file for Node.js app
+  ansible.builtin.template:
+    src: nodeapp.service.j2
+    dest: /etc/systemd/system/nodeapp.service
+    mode: '0644'
+
+- name: Reload systemd daemon
+  ansible.builtin.command: systemctl daemon-reload
+
+- name: Enable and start Node.js app with systemd
+  ansible.builtin.systemd:
+    name: nodeapp
+    enabled: yes
+    state: started
+
+- name: Create symlink for Node.js binary
+  ansible.builtin.file:
+    src: "/home/ec2-user/.nvm/versions/node/{{ node_version }}/bin/node"
+    dest: "/usr/local/bin/node"
+    state: link
+    force: yes
+
+- name: Create symlink for npm binary
+  ansible.builtin.file:
+    src: "/home/ec2-user/.nvm/versions/node/{{ node_version }}/bin/npm"
+    dest: "/usr/local/bin/npm"
+    state: link
+    force: yes

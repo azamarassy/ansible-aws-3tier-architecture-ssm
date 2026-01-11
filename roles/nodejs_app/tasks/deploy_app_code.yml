@@ -1,0 +1,17 @@
+---
+- name: Create /opt/app directory
+  ansible.builtin.file:
+    path: /opt/app
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: '0755'
+
+- name: Deploy app.js
+  ansible.builtin.copy:
+    src: app.js
+    dest: /opt/app/app.js
+    owner: ec2-user
+    group: ec2-user
+    mode: '0755'
+  notify: Restart Node App

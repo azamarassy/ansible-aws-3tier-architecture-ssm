@@ -1,0 +1,28 @@
+---
+- name: Setup Common Dependencies and Node.js App
+  hosts: app # Node.jsアプリをデプロイするサーバーグループ
+  become: yes
+  gather_facts: false
+
+  roles:
+    # 共通のシステム依存関係やPython MySQLモジュールなどをインストール
+    - role: common_setup
+
+    # Node.jsアプリケーションのデプロイと設定
+    - role: nodejs_app
+
+  handlers:
+    # nodejs_app ロール内でnotifyされるハンドラー
+    - name: Restart Node App
+      ansible.builtin.systemd:
+        name: nodeapp
+        state: restarted
+
+- name: Setup Nginx Proxy
+  hosts: web # Nginxプロキシをデプロイするサーバーグループ
+  become: yes
+  gather_facts: false
+
+  roles:
+    # Nginxプロキシのインストールと設定
+    - role: nginx_proxy

@@ -1,0 +1,33 @@
+---
+- name: Initialize npm project
+  become: false
+  become_user: ec2-user
+  ansible.builtin.command: npm init -y
+  args:
+    chdir: /opt/app
+  environment:
+    PATH: "/home/ec2-user/.nvm/versions/node/{{ node_version }}/bin:{{ ansible_env.PATH }}"
+
+- name: Install express via npm
+  become: false
+  become_user: ec2-user
+  community.general.npm:
+    name: express
+    path: /opt/app
+    production: yes
+
+- name: Install mysql2 via npm
+  become: false
+  become_user: ec2-user
+  community.general.npm:
+    name: mysql2
+    path: /opt/app
+    production: yes
+
+- name: Install aws-sdk via npm
+  become: false
+  become_user: ec2-user
+  community.general.npm:
+    name: aws-sdk
+    path: /opt/app
+    production: yes

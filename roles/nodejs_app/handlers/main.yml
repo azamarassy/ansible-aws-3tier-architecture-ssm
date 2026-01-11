@@ -1,0 +1,5 @@
+# handlers/main.yml
+- name: Restart Node App
+  systemd:
+    name: nodeapp
+    state: restarted

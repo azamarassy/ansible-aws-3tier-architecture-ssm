@@ -1,0 +1,12 @@
+---
+- name: Include Node.js installation tasks
+  ansible.builtin.include_tasks: install_nodejs.yml
+
+- name: Include application code deployment tasks
+  ansible.builtin.include_tasks: deploy_app_code.yml
+
+- name: Include npm dependencies installation tasks
+  ansible.builtin.include_tasks: install_npm_dependencies.yml
+
+- name: Include systemd configuration tasks
+  ansible.builtin.include_tasks: configure_systemd.yml

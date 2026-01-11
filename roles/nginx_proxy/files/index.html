@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>三層構成確認</title>
+</head>
+<body>
+  <h2>App経由のRDSデータとS3画像表示</h2>
+  <div id="output">Loading...</div>
+  <script>
+    fetch("/api/data")
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "ok") {
+          let html = "<img src='" + data.image + "' width='300'><br><ul>";
+          data.users.forEach(user => {
+            html += "<li>ID: " + user.id + ", Name: " + user.name + "</li>";
+          });
+          html += "</ul>";
+          document.getElementById("output").innerHTML = html;
+        } else {
+          document.getElementById("output").innerText = "エラー: " + data.message;
+        }
+      })
+      .catch(error => {
+        document.getElementById("output").innerText = "通信エラー: " + error;
+      });
+  </script>
+</body>
+</html>

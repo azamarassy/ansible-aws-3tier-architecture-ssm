@@ -1,0 +1,29 @@
+[Unit]
+Description=Node.js App Server
+After=network.target
+
+[Service]
+Environment="DB_HOST={{ mysql_host }}"
+Environment="DB_USER={{ mysql_user }}"
+Environment="DB_DATABASE={{ mysql_db_name }}"
+Environment="AWS_REGION={{ aws_region }}" 
+Environment="S3_BUCKET_NAME={{ s3_bucket_name }}"
+Environment="S3_IMAGE_KEY={{ s3_image_key }}"
+ExecStart=/usr/local/bin/node /opt/app/app.js
+WorkingDirectory=/opt/app
+Environment=NODE_ENV=production
+User=ec2-user
+Group=ec2-user
+# 安全設定（調整）
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=auto
+ProtectHome=read-only
+ProtectKernelModules=true
+StandardOutput=journal
+StandardError=journal
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

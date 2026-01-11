@@ -1,0 +1,7 @@
+[web]
+# ここにはWebサーバーのインスタンスIDを記述してください
+webserver ansible_host=i-your-web-instance-id ansible_user=ec2-user ansible_ssh_common_args='-o ProxyCommand="aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p"'
+
+[app]
+# ここにはAppサーバーのインスタンスIDを記述してください
+appserver ansible_host=i-your-app-instance-id ansible_user=ec2-user ansible_ssh_common_args='-o ProxyCommand="aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p"'

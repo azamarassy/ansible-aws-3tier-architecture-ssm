@@ -1,0 +1,39 @@
+---
+- name: Install nvm
+  become: false
+  become_user: ec2-user
+  shell: |
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  args:
+    creates: /home/ec2-user/.nvm/nvm.sh
+
+- name: Install Node.js LTS via nvm
+  become: false
+  become_user: ec2-user
+  shell: |
+    source ~/.nvm/nvm.sh && \
+    nvm install --lts && \
+    nvm use --lts && \
+    nvm alias default 'lts/*'
+  environment:
+    NVM_DIR: /home/ec2-user/.nvm
+  args:
+    executable: /bin/bash
+
+- name: Get installed Node.js version
+  become: false
+  become_user: ec2-user
+  command: bash -c "ls /home/ec2-user/.nvm/versions/node/"
+  register: node_version_raw
+
+- name: Set node_version fact
+  set_fact:
+    node_version: "{{ node_version_raw.stdout_lines[0] }}"
+
+- name: Add Node.js bin path to .bashrc
+  become: false
+  become_user: ec2-user
+  lineinfile:
+    path: /home/ec2-user/.bashrc
+    line: 'export PATH="/home/ec2-user/.nvm/versions/node/{{ node_version }}/bin:$PATH"'
+    insertafter: EOF
