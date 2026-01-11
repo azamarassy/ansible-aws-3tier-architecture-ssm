@@ -2,6 +2,8 @@
 
 SSHポート（22番）を閉じたまま、AWS Systems Manager (SSM) Session Manager経由でAnsibleを実行することを想定しています。
 
+![構成図](EC2-architecture構成図.jpg)
+
 ---
 
 ## 1. Node.jsアプリサーバーの構築 (`hosts: app`)
