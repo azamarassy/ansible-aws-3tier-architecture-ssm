@@ -59,3 +59,21 @@ ansible-playbook -i inventory.ini site.yml
 ### まとめ
 
 このコードを実行するだけで、「セキュリティのためにアプリ本体は隠しつつ、Nginxを窓口にして公開する」というWebシステムの標準的なインフラ構成が自動的に完成するようになっています。
+
+
+
+### インストールパッケージ一覧
+
+| サーバー | カテゴリ | パッケージ名 / ツール名 | 用途 |
+| --- | --- | --- | --- |
+| **Webサーバー** (`web`) | **Webサーバー** | `nginx` | リバースプロキシとして動作し、リクエストを転送する |
+|  | **ユーティリティ** | `curl`, `git`, `tar` | インストールやコード取得に使用 |
+| **Appサーバー** (`app`) | **言語・実行環境** | `nvm` (Node Version Manager) | Node.jsのバージョン管理 |
+|  |  | `Node.js (LTS)` | アプリケーションの実行本体 |
+|  | **Node.jsライブラリ** | `express` | Webアプリケーションフレームワーク |
+|  |  | `mysql2` | RDS（MySQL/MariaDB）への接続用 |
+|  |  | `aws-sdk` | S3などのAWSリソース操作用 |
+|  | **DBクライアント** | `mariadb105` (client) | サーバーからDBへの接続確認用 |
+|  | **ビルド・依存関係** | `gcc`, `make`, `openssl-devel` | ネイティブモジュールのビルド用 |
+|  |  | `python3-pip`, `PyMySQL` | AnsibleからMySQLを操作するための連携用 |
+|  |  | `libffi-devel`, `bzip2` | システムの共通依存関係 |
